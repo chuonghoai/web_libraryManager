@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BookDetail } from '../../../../features/book/models/book.model';
@@ -13,7 +13,7 @@ import { CreateBookDto } from '../../../../features/book/dtos/book.dto';
 export class BookFormComponent implements OnInit {
     private fb = inject(FormBuilder);
 
-    @Input() bookData: BookDetail | null = null; // Nếu có data là mode Edit, null là mode Create
+    @Input() bookData: BookDetail | null = null;
     @Output() save = new EventEmitter<CreateBookDto>();
     @Output() cancel = new EventEmitter<void>();
 
@@ -36,5 +36,10 @@ export class BookFormComponent implements OnInit {
         if (this.bookForm.valid) {
             this.save.emit(this.bookForm.value);
         }
+    }
+
+    @HostListener('document:keydown.escape', ['$event'])
+    onKeydownHandler(event: Event) {
+        this.cancel.emit();
     }
 }

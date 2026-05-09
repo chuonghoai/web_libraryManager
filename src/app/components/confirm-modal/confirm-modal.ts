@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -21,5 +21,10 @@ export class ConfirmModalComponent {
 
     onCancel() {
         this.result.emit(false);
+    }
+
+    @HostListener('document:keydown.escape', ['$event'])
+    onKeydownHandler(event: Event) {
+        this.onCancel();
     }
 }
