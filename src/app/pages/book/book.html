@@ -1,7 +1,7 @@
 <div class="p-6 h-full flex flex-col">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-gray-900">Quản lý Sách</h1>
-        <button
+        <button (click)="openCreateForm()"
             class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-5 rounded shadow transition-colors flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -10,6 +10,12 @@
             Thêm mới
         </button>
     </div>
+
+    @if (isFormOpen()) {
+    <app-book-form [bookData]="formMode() === 'edit' ? selectedBookDetail() : null" (save)="handleSaveBook($event)"
+        (cancel)="isFormOpen.set(false)">
+    </app-book-form>
+    }
 
     @if (errorMessage()) {
     <div class="bg-red-100 text-red-700 p-3 rounded mb-4 shadow-sm border border-red-200">
@@ -62,7 +68,7 @@
                 <p class="text-blue-500 font-medium">Đang tải thông tin chi tiết...</p>
             </div>
             } @else if (selectedBookDetail()) {
-            <app-book-detail [detail]="selectedBookDetail()!" (close)="closeDetail()" (edit)="onEditBook()"
+            <app-book-detail [detail]="selectedBookDetail()!" (close)="closeDetail()" (edit)="openEditForm()"
                 (delete)="onDeleteBook()">
             </app-book-detail>
             }
