@@ -1,0 +1,30 @@
+<div class="p-6">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">Quản lý Sách</h1>
+
+    @if (isLoading()) {
+    <p class="text-blue-500">Đang tải dữ liệu...</p>
+    }
+
+    @if (errorMessage()) {
+    <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+        {{ errorMessage() }}
+    </div>
+    }
+
+    <div class="bg-white shadow rounded-lg p-4">
+        <ul class="divide-y divide-gray-200">
+            @for (book of books(); track book.id) {
+            <li class="py-3 flex justify-between items-center">
+                <div>
+                    <p class="text-lg font-medium text-gray-800">{{ book.title }}</p>
+                    <p class="text-sm text-gray-500">Tác giả: {{ book.author }} ({{ book.publishedYear }})</p>
+                </div>
+            </li>
+            } @empty {
+            @if (!isLoading() && !errorMessage()) {
+            <li class="py-3 text-gray-500 text-center">Chưa có sách nào trong thư viện.</li>
+            }
+            }
+        </ul>
+    </div>
+</div>
