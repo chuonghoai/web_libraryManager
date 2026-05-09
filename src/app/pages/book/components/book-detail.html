@@ -1,0 +1,38 @@
+<div class="bg-white shadow rounded-lg p-6 h-full border border-gray-200 flex flex-col animate-fade-in">
+    <div class="flex justify-between items-start mb-4">
+        <h2 class="text-2xl font-bold text-gray-800">{{ detail.title }}</h2>
+        <button (click)="close.emit()" class="text-gray-400 hover:text-gray-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="space-y-3 mb-8 text-gray-700 flex-1">
+        <p><strong>Tác giả:</strong> {{ detail.author }}</p>
+        <p><strong>Năm xuất bản:</strong> {{ detail.publishedYear }}</p>
+        <div class="mt-4">
+            <strong>Mô tả:</strong>
+            <p class="text-sm mt-1 text-gray-600 bg-gray-50 p-3 rounded border border-gray-100">
+                {{ detail.description || 'Chưa có mô tả cho sách này.' }}
+            </p>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-gray-100">
+            <p class="text-xs text-gray-500">Tạo lúc: {{ detail.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p class="text-xs text-gray-500">Cập nhật lúc: {{ detail.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+    </div>
+
+    <div class="flex gap-3 mt-auto">
+        <button (click)="edit.emit()"
+            class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition-colors shadow-sm">
+            Chỉnh sửa
+        </button>
+        <button (click)="delete.emit()"
+            class="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition-colors shadow-sm">
+            Xóa
+        </button>
+    </div>
+</div>
