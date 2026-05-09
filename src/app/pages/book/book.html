@@ -12,34 +12,35 @@
     </div>
 
     @if (isFormOpen()) {
-    <app-book-form [bookData]="formMode() === 'edit' ? selectedBookDetail() : null" (save)="handleSaveBook($event)"
-        (cancel)="isFormOpen.set(false)">
+    <app-book-form [bookData]="formMode() === 'edit' ? store.selectedBookDetail() : null"
+        (save)="handleSaveBook($event)" (cancel)="isFormOpen.set(false)">
     </app-book-form>
     }
 
-    @if (errorMessage()) {
+    @if (store.errorMessage()) {
     <div class="bg-red-100 text-red-700 p-3 rounded mb-4 shadow-sm border border-red-200">
-        {{ errorMessage() }}
+        {{ store.errorMessage() }}
     </div>
     }
 
     <div class="flex flex-1 gap-6 items-start">
 
         <div class="bg-white shadow rounded-lg p-4 flex-1 transition-all duration-300 border border-gray-200">
-            @if (isLoading() && !books().length) {
+            @if (store.isLoading() && !store.books().length) {
             <div class="flex justify-center p-8">
                 <p class="text-blue-500 font-medium">Đang tải dữ liệu...</p>
             </div>
             }
             <ul class="divide-y divide-gray-100">
-                @for (book of books(); track book.id) {
+                @for (book of store.books(); track book.id) {
                 <li class="py-3 flex justify-between items-center cursor-pointer hover:bg-blue-50 px-3 rounded transition-colors"
-                    [class.bg-blue-50]="selectedBookId() === book.id" [class.border-l-4]="selectedBookId() === book.id"
-                    [class.border-blue-500]="selectedBookId() === book.id" (click)="selectBook(book.id)">
+                    [class.bg-blue-50]="store.selectedBookId() === book.id"
+                    [class.border-l-4]="store.selectedBookId() === book.id"
+                    [class.border-blue-500]="store.selectedBookId() === book.id" (click)="store.selectBook(book.id)">
                     <div>
                         <p class="text-lg font-medium transition-colors"
-                            [class.text-blue-700]="selectedBookId() === book.id"
-                            [class.text-gray-800]="selectedBookId() !== book.id">
+                            [class.text-blue-700]="store.selectedBookId() === book.id"
+                            [class.text-gray-800]="store.selectedBookId() !== book.id">
                             {{ book.title }}
                         </p>
                         <p class="text-sm text-gray-500">Tác giả: {{ book.author }} ({{ book.publishedYear }})</p>
@@ -52,24 +53,24 @@
                     </svg>
                 </li>
                 } @empty {
-                @if (!isLoading() && !errorMessage()) {
+                @if (!store.isLoading() && !store.errorMessage()) {
                 <li class="py-6 text-gray-500 text-center">Chưa có sách nào trong thư viện.</li>
                 }
                 }
             </ul>
         </div>
 
-        @if (selectedBookId()) {
+        @if (store.selectedBookId()) {
         <div class="w-1/3 min-w-[320px]">
-            @if (isDetailLoading()) {
+            @if (store.isDetailLoading()) {
             <div
                 class="bg-white shadow rounded-lg p-6 border border-gray-200 text-center flex flex-col justify-center items-center h-64">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-4"></div>
                 <p class="text-blue-500 font-medium">Đang tải thông tin chi tiết...</p>
             </div>
-            } @else if (selectedBookDetail()) {
-            <app-book-detail [detail]="selectedBookDetail()!" (close)="closeDetail()" (edit)="openEditForm()"
-                (delete)="onDeleteBook()">
+            } @else if (store.selectedBookDetail()) {
+            <app-book-detail [detail]="store.selectedBookDetail()!" (close)="store.closeDetail()"
+                (edit)="openEditForm()" (delete)="openDeleteConfirm()">
             </app-book-detail>
             }
         </div>
@@ -78,11 +79,8 @@
 </div>
 
 @if (isConfirmOpen()) {
-    <app-confirm-modal
-        [title]="'Xóa sách'"
-        [message]="'Bạn có chắc chắn muốn xóa cuốn sách \'' + selectedBookDetail()?.title + '\' không? Thao tác này không thể hoàn tác.'"
-        [confirmText]="'Xóa ngay'"
-        [cancelText]="'Để sau'"
-        (result)="handleConfirmDelete($event)">
-    </app-confirm-modal>
+<app-confirm-modal [title]="'Xóa sách'"
+    [message]="'Bạn có chắc chắn muốn xóa cuốn sách \'' + store.selectedBookDetail()?.title + '\' không? Thao tác này không thể hoàn tác.'"
+    [confirmText]="'Xóa ngay'" [cancelText]="'Để sau'" (result)="handleConfirmDelete($event)">
+</app-confirm-modal>
 }
