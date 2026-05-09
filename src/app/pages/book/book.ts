@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../features/book/services/book.service';
 import { Book, BookDetail } from '../../features/book/models/book.model';
-import { BookDetailComponent } from './components/book-detail';
+import { BookDetailComponent } from './components/book-detail/book-detail';
 
 @Component({
     selector: 'app-book',

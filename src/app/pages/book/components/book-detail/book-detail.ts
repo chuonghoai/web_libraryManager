@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookDetail } from '../../../features/book/models/book.model';
+import { BookDetail } from '../../../../features/book/models/book.model';
 
 @Component({
     selector: 'app-book-detail',
