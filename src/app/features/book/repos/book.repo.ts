@@ -109,7 +109,12 @@ export class BookRepo {
      * @param id
      * @returns null
      */
-    delete(id: string): Observable<ApiResponse<void>> {
-        return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`);
+    delete(id: string): Observable<ApiResponse<null>> {
+        // return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`);
+        return of({
+            success: true,
+            message: "Success",
+            data: null
+        })
     }
 }

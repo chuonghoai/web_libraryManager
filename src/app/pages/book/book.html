@@ -76,3 +76,13 @@
         }
     </div>
 </div>
+
+@if (isConfirmOpen()) {
+    <app-confirm-modal
+        [title]="'Xóa sách'"
+        [message]="'Bạn có chắc chắn muốn xóa cuốn sách \'' + selectedBookDetail()?.title + '\' không? Thao tác này không thể hoàn tác.'"
+        [confirmText]="'Xóa ngay'"
+        [cancelText]="'Để sau'"
+        (result)="handleConfirmDelete($event)">
+    </app-confirm-modal>
+}

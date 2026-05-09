@@ -45,7 +45,7 @@ export class BookService {
      * Delete book
      * @returns null
      */
-    deleteBook(id: string): Observable<ApiResponse<void>> {
+    deleteBook(id: string): Observable<ApiResponse<null>> {
         return this.bookRepo.delete(id);
     }
 }

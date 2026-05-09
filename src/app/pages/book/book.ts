@@ -5,11 +5,12 @@ import { Book, BookDetail } from '../../features/book/models/book.model';
 import { BookDetailComponent } from './components/book-detail/book-detail';
 import { BookFormComponent } from './components/book-form/book-form';
 import { CreateBookDto } from '../../features/book/dtos/book.dto';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal';
 
 @Component({
     selector: 'app-book',
     standalone: true,
-    imports: [CommonModule, BookDetailComponent, BookFormComponent],
+    imports: [CommonModule, BookDetailComponent, BookFormComponent, ConfirmModalComponent],
     templateUrl: './book.html',
 })
 export class BookPage implements OnInit {
@@ -25,6 +26,8 @@ export class BookPage implements OnInit {
 
     isFormOpen = signal<boolean>(false);
     formMode = signal<'create' | 'edit'>('create');
+
+    isConfirmOpen = signal<boolean>(false);
 
     ngOnInit(): void {
         this.loadBooks();
@@ -78,7 +81,26 @@ export class BookPage implements OnInit {
 
     // Delete book in component detail
     onDeleteBook(): void {
-        // TODO
+        this.isConfirmOpen.set(true);
+    }
+
+    handleConfirmDelete(result: boolean): void {
+        const id = this.selectedBookId();
+        this.isConfirmOpen.set(false);
+
+        if (result && id) {
+            this.bookService.deleteBook(id).subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.books.update(list => list.filter(b => b.id !== id));
+                        this.closeDetail();
+                    }
+                },
+                error: (err) => {
+                    this.errorMessage.set(err.error?.message || 'Không thể xóa sách vào lúc này.');
+                }
+            });
+        }
     }
 
     openCreateForm(): void {
