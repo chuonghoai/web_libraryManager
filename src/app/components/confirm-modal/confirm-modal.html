@@ -1,21 +1,24 @@
-<div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-60 flex justify-center items-center p-4"
-     (click)="onCancel()">
-    
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden animate-zoom-in"
-         (click)="$event.stopPropagation()">
-         
-        <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ title }}</h3>
-            <p class="text-gray-600">{{ message }}</p>
+<div class="fixed inset-0 bg-[#0F172A]/12 backdrop-blur-sm z-60 flex justify-center items-center p-4 font-sans"
+    (click)="onCancel()">
+
+    <div class="bg-white rounded-md shadow-lg w-full max-w-md overflow-hidden animate-zoom-in"
+        (click)="$event.stopPropagation()">
+
+        <div class="px-4 py-3 border-b border-[#E2E8F0]">
+            <h3 class="text-[18px] leading-[26px] font-semibold font-serif text-[#1E3A5F]">{{ title }}</h3>
         </div>
 
-        <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3">
+        <div class="p-4">
+            <p class="text-[14px] leading-[22px] text-[#1E3A5F]">{{ message }}</p>
+        </div>
+
+        <div class="bg-[#F8FAFC] px-4 py-3 flex justify-end gap-2 border-t border-[#E2E8F0]">
             <button (click)="onCancel()"
-                class="px-4 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg font-medium transition-colors">
+                class="px-4 h-[36px] text-[#1E3A5F] bg-white border border-[#CBD5E1] hover:bg-[#F1F5F9] rounded font-medium transition-colors text-[14px]">
                 {{ cancelText }}
             </button>
             <button (click)="onConfirm()"
-                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium shadow-md transition-colors">
+                class="px-4 h-[36px] bg-[#DC2626] hover:bg-[#B91C1C] text-white rounded font-medium transition-colors text-[14px]">
                 {{ confirmText }}
             </button>
         </div>
