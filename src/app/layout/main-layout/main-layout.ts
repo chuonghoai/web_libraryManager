@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
     selector: 'app-main-layout',
@@ -14,4 +15,6 @@ export class MainLayoutComponent {
         { label: 'Độc giả', route: '/reader', icon: 'bi-people' },
         { label: 'Mượn/Trả', route: '/borrow', icon: 'bi-arrow-left-right' },
     ];
+
+    appVersion = environment.app_version;
 }
