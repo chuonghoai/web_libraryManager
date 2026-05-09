@@ -4,3 +4,9 @@ export interface Book {
     author: string;
     publishedYear: number;
 }
+
+export interface BookDetail extends Book {
+    description: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
