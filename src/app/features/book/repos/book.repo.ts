@@ -21,13 +21,13 @@ export class BookRepo {
             message: 'Success',
             data: [
                 {
-                    id: 1,
+                    id: "1",
                     title: 'Book 1',
                     author: 'Author 1',
                     publishedYear: 2022
                 },
                 {
-                    id: 2,
+                    id: "2",
                     title: 'Book 2',
                     author: 'Author 2',
                     publishedYear: 2023
