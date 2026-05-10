@@ -1,0 +1,83 @@
+<div class="h-[calc(100vh-4rem)] min-h-[500px] flex flex-col font-sans">
+    <div class="flex justify-between items-center mb-6 shrink-0">
+        <h1 class="text-[24px] leading-[32px] font-bold font-serif text-[#1E3A5F]">Quản lý Mượn/Trả</h1>
+
+        <button (click)="openBorrowForm()"
+            class="bg-[#1E3A5F] hover:bg-[#162D4A] text-white font-medium h-[36px] px-4 rounded transition-colors flex items-center gap-2 text-[14px]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            Mượn / Trả sách
+        </button>
+    </div>
+
+    @if (isFormOpen()) {
+    <app-borrow-form (success)="handleActionSuccess()" (cancel)="isFormOpen.set(false)">
+    </app-borrow-form>
+    }
+
+    @if (store.errorMessage()) {
+    <div class="bg-[#FEF2F2] border border-[#DC2626] text-[#DC2626] p-3 rounded mb-4 text-[14px] shadow-sm shrink-0">
+        {{ store.errorMessage() }}
+    </div>
+    }
+
+    <div class="flex flex-1 gap-4 min-h-0">
+        <div class="bg-white shadow-sm rounded p-4 flex-1 h-full overflow-y-auto border border-[#E2E8F0]">
+            @if (store.isLoading() && !store.borrows().length) {
+            <div class="flex justify-center p-8">
+                <p class="text-[#2563EB] font-medium text-[14px]">Đang tải dữ liệu...</p>
+            </div>
+            }
+            <ul class="divide-y divide-[#E2E8F0]">
+                @for (borrow of store.borrows(); track borrow.id) {
+                <li class="min-h-[40px] py-2 px-3 flex justify-between items-center cursor-pointer hover:bg-[#F8FAFC] border-l-2 transition-colors"
+                    [class.bg-[#EFF6FF]]="store.selectedBorrowId() === borrow.id"
+                    [class.border-[#1E3A5F]]="store.selectedBorrowId() === borrow.id"
+                    [class.border-transparent]="store.selectedBorrowId() !== borrow.id"
+                    (click)="store.selectBorrow(borrow.id)">
+                    <div>
+                        <p class="text-[14px] font-medium transition-colors"
+                            [class.text-[#1E3A5F]]="store.selectedBorrowId() === borrow.id"
+                            [class.text-[#1E3A5F]]="store.selectedBorrowId() !== borrow.id">
+                            {{ borrow.readerName }} ({{ borrow.readerCode }})
+                        </p>
+                        <p class="text-[12px] text-[#6B7280] font-medium">
+                            Đang mượn: <span class="font-bold text-[#2563EB]">{{ borrow.totalBooks }}</span> cuốn •
+                            Hạn trả gần nhất: <span class="text-[#CA8A04]">{{ borrow.nearestDueDate | date:'dd/MM/yyyy'
+                                }}</span>
+                        </p>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#CBD5E1]" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </li>
+                } @empty {
+                @if (!store.isLoading() && !store.errorMessage()) {
+                <li class="py-6 text-[#6B7280] text-center text-[14px]">Hiện không có độc giả nào đang mượn sách.</li>
+                }
+                }
+            </ul>
+        </div>
+
+        @if (store.selectedBorrowId()) {
+        <div class="w-1/2 min-w-[400px] h-full shrink-0">
+            @if (store.isDetailLoading()) {
+            <div
+                class="bg-white shadow-sm rounded p-4 border border-[#E2E8F0] text-center flex flex-col justify-center items-center h-full">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-[#1E3A5F] mb-4"></div>
+                <p class="text-[#2563EB] font-medium text-[14px]">Đang tải thông tin chi tiết...</p>
+            </div>
+            } @else if (store.selectedBorrowDetail()) {
+            <app-borrow-detail [detail]="store.selectedBorrowDetail()!" (close)="store.closeDetail()">
+            </app-borrow-detail>
+            }
+        </div>
+        }
+    </div>
+</div>

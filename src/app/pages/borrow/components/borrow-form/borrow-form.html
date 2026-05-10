@@ -1,0 +1,219 @@
+<div class="fixed inset-0 bg-[#0F172A]/20 backdrop-blur-sm z-50 flex justify-center items-stretch py-10 px-4 font-sans gap-4 transition-all"
+    (click)="cancel.emit()">
+
+    <div class="bg-white rounded-md shadow-xl w-[500px] shrink-0 flex flex-col h-fit max-h-[90vh] animate-zoom-in"
+        (click)="$event.stopPropagation()">
+
+        <div class="px-4 pt-4 border-b border-[#E2E8F0] shrink-0">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-[18px] leading-[26px] font-semibold font-serif text-[#1E3A5F]">Giao dịch Mượn/Trả</h3>
+                <button (click)="cancel.emit()" class="text-[#6B7280] hover:text-[#1E3A5F] transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex gap-4">
+                <button (click)="switchTab('BORROW')" class="pb-2 text-[14px] font-medium border-b-2 transition-colors"
+                    [ngClass]="activeTab === 'BORROW' ? 'border-[#1E3A5F] text-[#1E3A5F]' : 'border-transparent text-[#6B7280] hover:text-[#1E3A5F]'">
+                    Mượn sách
+                </button>
+                <button (click)="switchTab('RETURN')" class="pb-2 text-[14px] font-medium border-b-2 transition-colors"
+                    [ngClass]="activeTab === 'RETURN' ? 'border-[#1E3A5F] text-[#1E3A5F]' : 'border-transparent text-[#6B7280] hover:text-[#1E3A5F]'">
+                    Trả sách
+                </button>
+            </div>
+        </div>
+
+        <div class="p-4 overflow-y-auto flex-1">
+            <div class="mb-5 flex gap-2 items-end">
+                <div class="flex-1">
+                    <label class="block text-[13px] font-medium text-[#1E3A5F] mb-1">Mã độc giả</label>
+                    <input type="text" [ngModel]="store.readerCode()" (ngModelChange)="store.readerCode.set($event)"
+                        (keyup.enter)="store.searchReader()" placeholder="Nhập mã (VD: R001) và Enter..."
+                        class="w-full h-[36px] bg-white border border-[#CBD5E1] rounded px-3 focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/15 text-[14px] text-[#1E3A5F]">
+                </div>
+                <button (click)="store.searchReader()" [disabled]="store.isSearchingReader()"
+                    class="h-[36px] px-4 bg-white border border-[#CBD5E1] text-[#1E3A5F] hover:bg-[#F1F5F9] disabled:opacity-50 rounded text-[14px] font-medium transition-colors">
+                    {{ store.isSearchingReader() ? 'Đang tìm...' : 'Tìm kiếm' }}
+                </button>
+            </div>
+
+            @if (store.errorMessage()) {
+            <div class="text-[#DC2626] bg-[#FEF2F2] p-2 rounded text-[13px] mb-4">{{ store.errorMessage() }}</div>
+            }
+
+            @if (store.borrowDetail(); as detail) {
+            <div class="space-y-4 animate-fade-in border-t border-[#E2E8F0] pt-4">
+                <button (click)="store.openPanel('READER_BORROWS')"
+                    class="w-full bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1E3A5F] p-3 rounded text-[13px] font-medium text-left transition-colors flex justify-between items-center border border-[#BFDBFE]">
+                    <span>Độc giả: {{ detail.readerName }} (Đang mượn {{ detail.totalBooks }} cuốn)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                @if (activeTab === 'BORROW') {
+                <div>
+                    <label class="block text-[13px] font-medium text-[#1E3A5F] mb-1">Tra cứu tên sách để mượn</label>
+                    <input type="text" [ngModel]="store.bookSearchQuery()"
+                        (ngModelChange)="store.bookSearchQuery.set($event)" (focus)="store.loadAllBooksForBorrow()"
+                        placeholder="Gõ tên sách..."
+                        class="w-full h-[36px] bg-white border border-[#CBD5E1] rounded px-3 focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/15 text-[14px] text-[#1E3A5F]">
+                </div>
+
+                @if (store.borrowCart().length > 0) {
+                <div class="mt-4">
+                    <h4 class="text-[13px] font-medium text-[#6B7280] mb-2 uppercase tracking-wide">Sách chuẩn bị mượn
+                    </h4>
+                    <div class="border border-[#CBD5E1] rounded overflow-hidden divide-y divide-[#E2E8F0]">
+                        @for (cartItem of store.borrowCart(); track cartItem.book.id) {
+                        <div class="p-3 flex justify-between items-center bg-[#F8FAFC]">
+                            <div>
+                                <p class="text-[13px] text-[#1E3A5F] font-medium">{{ cartItem.book.title }}</p>
+                                <p class="text-[11px] text-[#6B7280]">Tồn kho: {{ cartItem.book.stock }}</p>
+                            </div>
+                            <div
+                                class="flex items-center gap-2 border border-[#CBD5E1] rounded bg-white overflow-hidden">
+                                <button (click)="store.updateBorrowCartQty(cartItem.book.id, -1)"
+                                    class="px-2 py-1 text-[#6B7280] hover:bg-[#F1F5F9] font-bold text-[14px]">-</button>
+                                <span class="text-[13px] font-medium text-[#1E3A5F] w-4 text-center">{{
+                                    cartItem.quantity }}</span>
+                                <button (click)="store.updateBorrowCartQty(cartItem.book.id, 1)"
+                                    class="px-2 py-1 text-[#6B7280] hover:bg-[#F1F5F9] font-bold text-[14px]">+</button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+                }
+
+                @if (activeTab === 'RETURN') {
+                <div>
+                    <p class="text-[13px] font-medium text-[#1E3A5F] mb-2">Chọn sách đang mượn để trả:</p>
+                    <div class="border border-[#CBD5E1] rounded overflow-hidden divide-y divide-[#E2E8F0]">
+                        @for (item of detail.items; track item.id) {
+                        <label class="flex items-start gap-3 p-3 hover:bg-[#F8FAFC] cursor-pointer">
+                            <input type="checkbox" [checked]="store.isItemInReturnCart(item.id)"
+                                (change)="store.toggleReturnItem(item, $any($event.target).checked)"
+                                class="w-4 h-4 mt-0.5 text-[#1E3A5F] rounded border-[#CBD5E1] focus:ring-[#1E3A5F]">
+                            <div>
+                                <p class="text-[13px] font-medium text-[#1E3A5F]">{{ item.bookTitle }}</p>
+                                <p class="text-[12px] text-[#6B7280]">SL mượn: <strong class="text-[#1E3A5F]">{{
+                                        item.quantity }}</strong> • Hạn: {{ item.dueDate | date:'dd/MM' }}</p>
+                            </div>
+                        </label>
+                        } @empty {
+                        <div class="p-4 text-center text-[#6B7280] text-[13px] italic">Không có sách nào đang mượn.
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+
+        <div class="bg-[#F8FAFC] px-4 py-3 flex justify-end gap-2 border-t border-[#E2E8F0] shrink-0">
+            <button (click)="cancel.emit()"
+                class="px-4 h-[36px] text-[#1E3A5F] bg-white border border-[#CBD5E1] hover:bg-[#F1F5F9] rounded font-medium transition-colors text-[14px]">
+                Đóng
+            </button>
+            @if (activeTab === 'BORROW') {
+            <button (click)="store.submitBorrow(success.emit.bind(success))"
+                [disabled]="store.borrowCart().length === 0"
+                class="px-4 h-[36px] bg-[#1E3A5F] hover:bg-[#162D4A] disabled:opacity-45 disabled:cursor-not-allowed text-white rounded font-medium transition-colors text-[14px]">
+                Xác nhận mượn
+            </button>
+            } @else {
+            <button (click)="store.submitReturn(success.emit.bind(success))"
+                [disabled]="store.returnCart().length === 0"
+                class="px-4 h-[36px] bg-[#1E3A5F] hover:bg-[#162D4A] disabled:opacity-45 disabled:cursor-not-allowed text-white rounded font-medium transition-colors text-[14px]">
+                Xác nhận trả
+            </button>
+            }
+        </div>
+    </div>
+
+    @if (store.activeSidePanel() !== 'NONE') {
+    <div class="bg-white rounded-md shadow-xl w-[400px] shrink-0 flex flex-col h-fit max-h-[90vh] animate-slide-in-right"
+        (click)="$event.stopPropagation()">
+
+        <div class="px-4 py-3 border-b border-[#E2E8F0] flex justify-between items-center shrink-0">
+            <h3 class="text-[16px] font-semibold text-[#1E3A5F]">
+                @if (store.activeSidePanel() === 'READER_BORROWS') { Đang mượn hiện tại }
+                @if (store.activeSidePanel() === 'BOOK_LIST') { Chọn sách để mượn }
+                @if (store.activeSidePanel() === 'RETURN_CART') { Tuỳ chỉnh số lượng trả }
+            </h3>
+            <button (click)="store.closePanel()" class="text-[#6B7280] hover:text-[#1E3A5F]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-4 overflow-y-auto flex-1 bg-[#F8FAFC]">
+
+            @if (store.activeSidePanel() === 'READER_BORROWS') {
+            <div class="space-y-2">
+                @for (item of store.borrowDetail()?.items; track item.id; let i = $index) {
+                <div class="bg-white border border-[#E2E8F0] p-3 rounded">
+                    <p class="text-[13px] font-medium text-[#1E3A5F]">{{ i + 1 }}. {{ item.bookTitle }}</p>
+                    <p class="text-[12px] text-[#6B7280] mt-1">SL: {{ item.quantity }} • Hạn: <span
+                            [class.text-[#DC2626]]="item.status==='OVERDUE'">{{ item.dueDate | date:'dd/MM' }}</span>
+                    </p>
+                </div>
+                }
+            </div>
+            }
+
+            @if (store.activeSidePanel() === 'BOOK_LIST') {
+            <div class="space-y-2">
+                @for (book of store.filteredBooks(); track book.id) {
+                <div class="bg-white border border-[#E2E8F0] p-3 rounded flex justify-between items-center hover:border-[#1E3A5F] cursor-pointer transition-colors"
+                    (click)="store.addBookToBorrowCart(book)">
+                    <div>
+                        <p class="text-[13px] font-medium text-[#1E3A5F]">{{ book.title }}</p>
+                        <p class="text-[11px] text-[#6B7280]">Kho: <strong [class.text-[#DC2626]]="book.stock === 0">{{
+                                book.stock }}</strong> cuốn</p>
+                    </div>
+                    <button
+                        class="w-6 h-6 rounded-full bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center font-bold text-[14px] hover:bg-[#2563EB] hover:text-white transition-colors"
+                        [disabled]="book.stock === 0">+</button>
+                </div>
+                } @empty {
+                <p class="text-[13px] text-[#6B7280] text-center italic mt-4">Không tìm thấy sách.</p>
+                }
+            </div>
+            }
+
+            @if (store.activeSidePanel() === 'RETURN_CART') {
+            <div class="space-y-3">
+                @for (cart of store.returnCart(); track cart.item.id) {
+                <div class="bg-white border border-[#E2E8F0] p-3 rounded shadow-sm">
+                    <p class="text-[13px] font-medium text-[#1E3A5F] mb-2">{{ cart.item.bookTitle }}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[12px] text-[#6B7280]">Đang mượn: {{ cart.item.quantity }}</span>
+                        <div class="flex items-center gap-2 border border-[#CBD5E1] rounded overflow-hidden">
+                            <button (click)="store.updateReturnCartQty(cart.item.id, -1)"
+                                class="px-2 py-1 bg-[#F8FAFC] hover:bg-[#E2E8F0] text-[#6B7280] font-bold text-[14px]">-</button>
+                            <span class="text-[13px] font-medium text-[#1E3A5F] w-4 text-center">{{ cart.quantity
+                                }}</span>
+                            <button (click)="store.updateReturnCartQty(cart.item.id, 1)"
+                                class="px-2 py-1 bg-[#F8FAFC] hover:bg-[#E2E8F0] text-[#6B7280] font-bold text-[14px]">+</button>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+
+        </div>
+    </div>
+    }
+</div>
