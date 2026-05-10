@@ -3,5 +3,4 @@ export interface CreateBookDto {
     author: string;
     publishedYear: number;
     description: string;
-    stock: number;
 }
