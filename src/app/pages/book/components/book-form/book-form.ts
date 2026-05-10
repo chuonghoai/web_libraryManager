@@ -28,6 +28,7 @@ export class BookFormComponent implements OnInit {
             title: [this.bookData?.title || '', [Validators.required]],
             author: [this.bookData?.author || '', [Validators.required]],
             publishedYear: [this.bookData?.publishedYear || new Date().getFullYear(), [Validators.required, Validators.min(1000)]],
+            stock: [this.bookData?.stock || 0, [Validators.required, Validators.min(0)]],
             description: [this.bookData?.description || '']
         });
     }
