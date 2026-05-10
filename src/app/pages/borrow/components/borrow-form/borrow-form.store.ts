@@ -124,17 +124,13 @@ export class BorrowFormStore {
         const detail = this.borrowDetail();
         if (!detail || this.borrowCart().length === 0) return;
 
-        const bookIds: string[] = [];
-        this.borrowCart().forEach(c => {
-            for (let i = 0; i < c.quantity; i++) bookIds.push(c.book.id);
-        });
+        const itemsToBorrow = this.borrowCart().map(c => ({
+            bookId: c.book.id,
+            quantity: c.quantity
+        }));
 
-        this.borrowService.borrowBook({
-            readerId: detail.readerId,
-            bookIds: bookIds
-        }).subscribe(res => {
+        this.borrowService.borrowBook(detail.readerId, { items: itemsToBorrow }).subscribe(res => {
             if (res.success) {
-
                 this.borrowStore.loadBorrows();
                 this.borrowStore.selectBorrow(res.data.id);
 

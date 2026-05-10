@@ -114,17 +114,15 @@ export class BorrowRepo {
     /**
      * Borrow books
      */
-    borrowBook(dto: CreateBorrowDto): Observable<ApiResponse<BorrowDetail>> {
-        const bookCounts = dto.bookIds.reduce((acc, id) => {
-            acc[id] = (acc[id] || 0) + 1;
-            return acc;
-        }, {} as Record<string, number>);
+    borrowBook(readerId: string, dto: CreateBorrowDto): Observable<ApiResponse<BorrowDetail>> {
+        // return this.http.post<ApiResponse<BorrowDetail>>(`${this.apiUrl}/${readerId}`, dto);
+        const totalQuantity = dto.items.reduce((sum, item) => sum + item.quantity, 0);
 
-        const mockItems = Object.keys(bookCounts).map((bookId, index) => ({
+        const mockItems = dto.items.map((item, index) => ({
             id: Date.now().toString() + index,
-            bookId: bookId,
-            bookTitle: `Sách mẫu ID: ${bookId}`,
-            quantity: bookCounts[bookId],
+            bookId: item.bookId,
+            bookTitle: `Sách mẫu ID: ${item.bookId}`,
+            quantity: item.quantity,
             borrowDate: new Date(),
             dueDate: new Date(new Date().setDate(new Date().getDate() + 14)),
             status: 'BORROWING' as const
@@ -132,14 +130,14 @@ export class BorrowRepo {
 
         return of({
             success: true,
-            message: `Mượn thành công ${dto.bookIds.length} cuốn sách!`,
+            message: `Mượn thành công ${totalQuantity} cuốn sách!`,
             data: {
                 id: "1",
-                readerId: dto.readerId,
+                readerId: readerId,
                 readerName: 'Độc giả Mới',
                 readerCode: 'R_NEW',
                 readerPhone: '0987654321',
-                totalBooks: dto.bookIds.length,
+                totalBooks: totalQuantity,
                 nearestDueDate: new Date(new Date().setDate(new Date().getDate() + 14)),
                 items: mockItems
             }

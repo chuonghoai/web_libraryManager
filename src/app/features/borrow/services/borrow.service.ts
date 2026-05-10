@@ -33,8 +33,8 @@ export class BorrowService {
     /**
      * Mượn sách
      */
-    borrowBook(dto: CreateBorrowDto): Observable<ApiResponse<BorrowDetail>> {
-        return this.borrowRepo.borrowBook(dto);
+    borrowBook(readerId: string, dto: CreateBorrowDto): Observable<ApiResponse<BorrowDetail>> {
+        return this.borrowRepo.borrowBook(readerId, dto);
     }
 
     /**

@@ -1,13 +1,12 @@
-export interface CreateBorrowDto {
-    readerId: string;
-    bookIds: string[];
-}
-
-export interface ReturnBookItemDto {
+export interface BorrowItemRequestDto {
     bookId: string;
     quantity: number;
 }
 
+export interface CreateBorrowDto {
+    items: BorrowItemRequestDto[];
+}
+
 export interface ReturnBookDto {
-    items: ReturnBookItemDto[];
+    items: BorrowItemRequestDto[];
 }
