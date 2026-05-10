@@ -7,6 +7,7 @@ export interface Book {
 
 export interface BookDetail extends Book {
     description: string;
+    stock: number;
     createdAt: Date;
     updatedAt: Date;
 }
