@@ -1,0 +1,35 @@
+<div class="bg-white shadow-sm rounded p-4 h-fit border border-[#E2E8F0] flex flex-col animate-fade-in font-sans">
+    <div class="flex justify-between items-start mb-4 border-b border-[#E2E8F0] pb-3">
+        <h2 class="text-[18px] leading-[26px] font-semibold font-serif text-[#1E3A5F]">{{ detail.name }}</h2>
+        <button (click)="close.emit()" class="text-[#6B7280] hover:text-[#1E3A5F] transition-colors mt-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="space-y-3 mb-2 text-[14px] text-[#1E3A5F]">
+        <p><strong class="text-[#6B7280] font-medium mr-1">Mã độc giả:</strong> <span
+                class="bg-[#EFF6FF] text-[#1E3A5F] px-2 py-1 rounded text-[12px] font-bold">{{ detail.code }}</span></p>
+        <p><strong class="text-[#6B7280] font-medium mr-1">Số điện thoại:</strong> {{ detail.phone }}</p>
+
+        <div class="pt-4 mt-4 border-t border-[#E2E8F0] space-y-1">
+            <p class="text-[12px] text-[#6B7280] font-medium">Đăng ký lúc: {{ detail.createdAt | date:'dd/MM/yyyy HH:mm'
+                }}</p>
+            <p class="text-[12px] text-[#6B7280] font-medium">Cập nhật lúc: {{ detail.updatedAt | date:'dd/MM/yyyy
+                HH:mm' }}</p>
+        </div>
+    </div>
+
+    <div class="flex gap-2 mt-6">
+        <button (click)="edit.emit()"
+            class="flex-1 bg-white text-[#1E3A5F] border border-[#CBD5E1] hover:bg-[#F1F5F9] font-medium h-[36px] rounded transition-colors text-[14px]">
+            Chỉnh sửa
+        </button>
+        <button (click)="delete.emit()"
+            class="flex-1 bg-[#DC2626] hover:bg-[#B91C1C] text-white font-medium h-[36px] rounded transition-colors text-[14px]">
+            Xóa
+        </button>
+    </div>
+</div>

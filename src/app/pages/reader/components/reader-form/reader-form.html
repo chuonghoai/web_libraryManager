@@ -1,0 +1,72 @@
+<div class="fixed inset-0 bg-[#0F172A]/12 backdrop-blur-sm z-50 flex justify-center items-center p-4 font-sans"
+    (click)="cancel.emit()">
+
+    <div class="bg-white rounded-md shadow-lg w-full max-w-md overflow-hidden animate-zoom-in"
+        (click)="$event.stopPropagation()">
+
+        <div class="px-4 py-3 border-b border-[#E2E8F0] flex justify-between items-center">
+            <h3 class="text-[18px] leading-[26px] font-semibold font-serif text-[#1E3A5F]">
+                {{ readerData ? 'Chỉnh sửa độc giả' : 'Thêm độc giả mới' }}
+            </h3>
+            <button (click)="cancel.emit()" class="text-[#6B7280] hover:text-[#1E3A5F]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <form [formGroup]="readerForm" (ngSubmit)="onSubmit()" class="p-4 space-y-5">
+            <div>
+                <label class="block text-[13px] font-medium text-[#1E3A5F] mb-1">Tên độc giả</label>
+                <input type="text" formControlName="name"
+                    class="w-full h-[36px] rounded px-3 focus:outline-none transition-all text-[14px]" [ngClass]="{
+                        'border border-[#DC2626] bg-[#FEF2F2] text-[#DC2626] focus:border-[#DC2626] focus:ring-2 focus:ring-[#DC2626]/15': nameControl?.invalid && (nameControl?.dirty || nameControl?.touched),
+                        'bg-white border border-[#CBD5E1] text-[#1E3A5F] focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/15': !(nameControl?.invalid && (nameControl?.dirty || nameControl?.touched))
+                    }" placeholder="Nhập tên độc giả...">
+
+                @if (nameControl?.invalid && (nameControl?.dirty || nameControl?.touched)) {
+                <div class="text-[#DC2626] text-[12px] mt-1 font-medium">
+                    @if (nameControl?.hasError('required')) {
+                    <span>Vui lòng nhập tên độc giả.</span>
+                    }
+                    @if (nameControl?.hasError('pattern')) {
+                    <span>Tên độc giả không được chứa chữ số.</span>
+                    }
+                </div>
+                }
+            </div>
+
+            <div>
+                <label class="block text-[13px] font-medium text-[#1E3A5F] mb-1">Số điện thoại</label>
+                <input type="text" formControlName="phone"
+                    class="w-full h-[36px] rounded px-3 focus:outline-none transition-all text-[14px]" [ngClass]="{
+                        'border border-[#DC2626] bg-[#FEF2F2] text-[#DC2626] focus:border-[#DC2626] focus:ring-2 focus:ring-[#DC2626]/15': phoneControl?.invalid && (phoneControl?.dirty || phoneControl?.touched),
+                        'bg-white border border-[#CBD5E1] text-[#1E3A5F] focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/15': !(phoneControl?.invalid && (phoneControl?.dirty || phoneControl?.touched))
+                    }" placeholder="Nhập số điện thoại liên hệ...">
+
+                @if (phoneControl?.invalid && (phoneControl?.dirty || phoneControl?.touched)) {
+                <div class="text-[#DC2626] text-[12px] mt-1 font-medium">
+                    @if (phoneControl?.hasError('required')) {
+                    <span>Vui lòng nhập số điện thoại.</span>
+                    }
+                    @if (phoneControl?.hasError('pattern')) {
+                    <span>Số điện thoại chỉ được chứa các chữ số.</span>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="flex justify-end gap-2 pt-4 mt-2 border-t border-[#E2E8F0]">
+                <button type="button" (click)="cancel.emit()"
+                    class="px-4 h-[36px] text-[#1E3A5F] bg-white border border-[#CBD5E1] hover:bg-[#F1F5F9] rounded font-medium transition-colors text-[14px]">
+                    Hủy bỏ
+                </button>
+                <button type="submit" [disabled]="readerForm.invalid"
+                    class="px-4 h-[36px] bg-[#1E3A5F] hover:bg-[#162D4A] disabled:opacity-45 disabled:hover:bg-[#1E3A5F] disabled:cursor-not-allowed text-white rounded font-medium transition-colors text-[14px]">
+                    Lưu thông tin
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
