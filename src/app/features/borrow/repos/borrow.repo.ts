@@ -11,6 +11,14 @@ export class BorrowRepo {
     private http = inject(HttpClient);
     private apiUrl = `${environment.apiUrl}/borrows`;
 
+    /**
+     * GET /borrows
+     * @returns list BorrowSummary[]
+     * Note: 
+     *  - totalBooks = Tổng các sách đang mượn (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - nearestDueDate = Ngày đến hạn trả sách gần nhất (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - Mỗi sách mượn đều có enum status là 'BORROWING' | 'RETURNED' | 'OVERDUE'
+     */
     getAllBorrows(): Observable<ApiResponse<BorrowSummary[]>> {
         return of({
             success: true,
@@ -36,6 +44,14 @@ export class BorrowRepo {
         });
     }
 
+    /**
+     * GET /borrows/:id
+     * @param id 
+     * @returns BorrowDetail
+     * Note: 
+     *  - totalBooks = Tổng các sách đang mượn (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - nearestDueDate = Ngày đến hạn trả sách gần nhất (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     */
     getById(id: string): Observable<ApiResponse<BorrowDetail>> {
         const today = new Date();
         const dueDate1 = new Date(); dueDate1.setDate(today.getDate() + 14);
@@ -75,6 +91,14 @@ export class BorrowRepo {
         });
     }
 
+    /**
+     * GET /borrows/reader/:readerCode
+     * @param readerCode 
+     * @returns BorrowDetail
+     * Note: 
+     *  - totalBooks = Tổng các sách đang mượn (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - nearestDueDate = Ngày đến hạn trả sách gần nhất (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     */
     getByReaderCode(readerCode: string): Observable<ApiResponse<BorrowDetail>> {
         return of({
             success: true,
@@ -112,7 +136,14 @@ export class BorrowRepo {
     }
 
     /**
-     * Borrow books
+     * POST /borrows/:readerId/borrow
+     * @param readerId
+     * @body CreateBorrowDto
+     * @returns BorrowDetail
+     * Note:
+     *  - totalBooks = Tổng các sách đang mượn (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - nearestDueDate = Ngày đến hạn trả sách gần nhất (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - dueDate: Hạn chót phải trả, mặc định là 1 tháng sau khi mượn
      */
     borrowBook(readerId: string, dto: CreateBorrowDto): Observable<ApiResponse<BorrowDetail>> {
         // return this.http.post<ApiResponse<BorrowDetail>>(`${this.apiUrl}/${readerId}`, dto);
@@ -145,7 +176,15 @@ export class BorrowRepo {
     }
 
     /**
-     * Trả sách 
+     * POST /borrows/:borrowId/return
+     * @param borrowId
+     * @body ReturnBookDto
+     * @returns BorrowDetail | null
+     * Note:
+     *  - totalBooks = Tổng các sách đang mượn (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - nearestDueDate = Ngày đến hạn trả sách gần nhất (Chỉ tính sách có trạng thái BORROWING và OVERDUE)
+     *  - Khi trả sách, thì cập nhật item status trong database thành RETURNED, không xóa nó khỏi database
+     *  - Nếu trả hết sách thì items là null, nếu chưa thì items là danh sách các sách còn lại
      */
     returnBooks(borrowId: string, dto: ReturnBookDto): Observable<ApiResponse<BorrowDetail | null>> {
         const totalReturned = dto.items.reduce((sum, item) => sum + item.quantity, 0);
