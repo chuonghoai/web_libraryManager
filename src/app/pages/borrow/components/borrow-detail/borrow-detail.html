@@ -24,9 +24,12 @@
                     <span>{{ i + 1 }}. {{ item.bookTitle }}</span>
                     <span class="px-2 py-0.5 rounded text-[11px]" [ngClass]="{
                             'bg-[#EFF6FF] text-[#2563EB]': item.status === 'BORROWING',
-                            'bg-[#FEF2F2] text-[#DC2626]': item.status === 'OVERDUE'
+                            'bg-[#FEF2F2] text-[#DC2626]': item.status === 'OVERDUE',
+                            'bg-[#D1FAE5] text-[#059669]': item.status === 'RETURNED'
                         }">
-                        {{ item.status === 'BORROWING' ? 'Đang mượn' : 'Quá hạn' }}
+                        {{ item.status === 'BORROWING' ? 'Đang mượn' :
+                        item.status === 'OVERDUE' ? 'Quá hạn' :
+                        item.status === 'RETURNED' ? 'Đã trả' : 'Khác' }}
                     </span>
                 </div>
                 <div class="flex justify-between text-[#6B7280] text-[12px]">

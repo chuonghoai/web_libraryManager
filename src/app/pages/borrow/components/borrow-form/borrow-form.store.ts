@@ -173,6 +173,7 @@ export class BorrowFormStore {
         if (!detail || this.returnCart().length === 0) return;
 
         const itemsToReturn = this.returnCart().map(c => ({
+            borrowItemId: c.item.id,
             bookId: c.item.bookId,
             quantity: c.quantity
         }));

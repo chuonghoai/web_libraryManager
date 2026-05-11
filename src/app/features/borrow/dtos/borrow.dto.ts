@@ -1,10 +1,14 @@
-export interface BorrowItemRequestDto {
+export interface CreateBorrowItemDto {
     bookId: string;
     quantity: number;
 }
 
+export interface BorrowItemRequestDto extends CreateBorrowItemDto {
+    borrowItemId: string;
+}
+
 export interface CreateBorrowDto {
-    items: BorrowItemRequestDto[];
+    items: CreateBorrowItemDto[];
 }
 
 export interface ReturnBookDto {
