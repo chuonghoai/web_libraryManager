@@ -25,12 +25,15 @@ export class BorrowPage implements OnInit {
         this.isFormOpen.set(true);
     }
 
-    handleActionSuccess(): void {
+    handleActionSuccess(borrowId?: string): void {
         this.isFormOpen.set(false);
         this.store.loadBorrows();
 
-        if (this.store.selectedBorrowId()) {
-            this.store.selectBorrow(this.store.selectedBorrowId()!);
+        if (borrowId) {
+            this.store.selectedBorrowId.set(null);
+            this.store.selectBorrow(borrowId);
+        } else {
+            this.store.closeDetail();
         }
     }
 }

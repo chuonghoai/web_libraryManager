@@ -12,8 +12,6 @@ export class BorrowRepo {
     private apiUrl = `${environment.apiUrl}/borrows`;
 
     /**
-     * Fix:
-     *  - Item nào đã trả thì không tính vào response
      * GET /borrows
      */
     getAllBorrows(): Observable<ApiResponse<BorrowSummary[]>> {
@@ -28,8 +26,6 @@ export class BorrowRepo {
     }
 
     /**
-     * Fix:
-     *  - Item nào đã trả thì không tính vào response
      * GET /borrows/reader/:readerCode
      */
     getByReaderCode(readerCode: string): Observable<ApiResponse<BorrowDetail>> {
@@ -52,11 +48,6 @@ export class BorrowRepo {
     }
 
     /**
-     * Fix:
-     *  - Ví dụ mượn 2 cuốn, trả 1 cuốn, backend báo lỗi: "Số lượng trả (1) vượt quá số lượng mượn (0)"
-     *  - Cụ thể: Nếu trong database borrow_item có 2 dòng record mượn cùng 1 loại sách
-     *      thì nếu trả hết số lượng của 1 dòng record, thì ko trả được dòng record còn lại
-     *  - Cách sửa: ReturnBookDto thêm field borrowItemId: string để xác định dòng record cần trả
      * POST /borrows/:borrowId/return
      */
     returnBooks(

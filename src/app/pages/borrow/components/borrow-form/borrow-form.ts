@@ -13,7 +13,7 @@ import { BorrowFormStore } from './borrow-form.store';
 export class BorrowFormComponent {
     readonly store = inject(BorrowFormStore);
 
-    @Output() success = new EventEmitter<void>();
+    @Output() success = new EventEmitter<string | undefined>();
     @Output() cancel = new EventEmitter<void>();
 
     activeTab: 'BORROW' | 'RETURN' = 'BORROW';
@@ -25,6 +25,10 @@ export class BorrowFormComponent {
         if (tab === 'BORROW') this.store.returnCart.set([]);
         if (tab === 'RETURN') this.store.borrowCart.set([]);
     }
+
+    handleSuccess = (borrowId?: string) => {
+        this.success.emit(borrowId);
+    };
 
     @HostListener('document:keydown.escape', ['$event'])
     onKeydownHandler(event: Event) {

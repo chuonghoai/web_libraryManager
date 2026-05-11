@@ -124,13 +124,13 @@
                 Đóng
             </button>
             @if (activeTab === 'BORROW') {
-            <button (click)="store.submitBorrow(success.emit.bind(success))"
+            <button (click)="store.submitBorrow(handleSuccess)"
                 [disabled]="store.borrowCart().length === 0"
                 class="px-4 h-[36px] bg-[#1E3A5F] hover:bg-[#162D4A] disabled:opacity-45 disabled:cursor-not-allowed text-white rounded font-medium transition-colors text-[14px]">
                 Xác nhận mượn
             </button>
             } @else {
-            <button (click)="store.submitReturn(success.emit.bind(success))"
+            <button (click)="store.submitReturn(handleSuccess)"
                 [disabled]="store.returnCart().length === 0"
                 class="px-4 h-[36px] bg-[#1E3A5F] hover:bg-[#162D4A] disabled:opacity-45 disabled:cursor-not-allowed text-white rounded font-medium transition-colors text-[14px]">
                 Xác nhận trả

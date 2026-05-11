@@ -14,7 +14,7 @@
     </div>
 
     @if (isFormOpen()) {
-    <app-borrow-form (success)="handleActionSuccess()" (cancel)="isFormOpen.set(false)">
+    <app-borrow-form (success)="handleActionSuccess($event)" (cancel)="isFormOpen.set(false)">
     </app-borrow-form>
     }
 

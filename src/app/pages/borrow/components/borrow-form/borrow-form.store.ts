@@ -120,7 +120,7 @@ export class BorrowFormStore {
         });
     }
 
-    submitBorrow(onSuccess: () => void): void {
+    submitBorrow(onSuccess: (borrowId: string) => void): void {
         const detail = this.borrowDetail();
         if (!detail || this.borrowCart().length === 0) return;
 
@@ -131,10 +131,7 @@ export class BorrowFormStore {
 
         this.borrowService.borrowBook(detail.readerId, { items: itemsToBorrow }).subscribe(res => {
             if (res.success) {
-                this.borrowStore.loadBorrows();
-                this.borrowStore.selectBorrow(res.data.id);
-
-                onSuccess();
+                onSuccess(res.data.id);
             }
         });
     }
@@ -168,7 +165,7 @@ export class BorrowFormStore {
         });
     }
 
-    submitReturn(onSuccess: () => void): void {
+    submitReturn(onSuccess: (borrowId?: string) => void): void {
         const detail = this.borrowDetail();
         if (!detail || this.returnCart().length === 0) return;
 
@@ -180,12 +177,11 @@ export class BorrowFormStore {
 
         this.borrowService.returnBooks(detail.id, { items: itemsToReturn }).subscribe(res => {
             if (res.success) {
-                this.borrowStore.loadBorrows();
-
-                if (res.data && res.data.totalBooks > 0) this.borrowStore.selectBorrow(res.data.id);
-                else this.borrowStore.closeDetail();
-
-                onSuccess();
+                if (res.data && res.data.totalBooks > 0) {
+                    onSuccess(res.data.id);
+                } else {
+                    onSuccess();
+                }
             }
         });
     }
