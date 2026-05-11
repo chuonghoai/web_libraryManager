@@ -1,0 +1,49 @@
+<div class="bg-white shadow-sm rounded p-4 h-full border border-[#E2E8F0] flex flex-col animate-fade-in font-sans">
+    <div class="flex justify-between items-start mb-4 border-b border-[#E2E8F0] pb-3 shrink-0">
+        <div>
+            <h2 class="text-[18px] leading-[26px] font-semibold font-serif text-[#1E3A5F]">{{ detail.readerName }}</h2>
+            <p class="text-[13px] text-[#6B7280] mt-1">{{ detail.readerCode }} - SĐT: {{ detail.readerPhone }}</p>
+        </div>
+        <button (click)="close.emit()" class="text-[#6B7280] hover:text-[#1E3A5F] transition-colors mt-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto pr-1">
+        <div class="flex items-center justify-between mb-3">
+            <strong class="text-[14px] text-[#1E3A5F]">Danh sách sách đang mượn ({{ detail.totalBooks }})</strong>
+        </div>
+
+        <div class="space-y-3">
+            @for (item of detail.items; track item.id; let i = $index) {
+            <div class="bg-[#F8FAFC] border border-[#E2E8F0] rounded p-3 text-[13px]">
+                <div class="flex justify-between font-medium text-[#1E3A5F] mb-2">
+                    <span>{{ i + 1 }}. {{ item.bookTitle }}</span>
+                    <span class="px-2 py-0.5 rounded text-[11px]" [ngClass]="{
+                            'bg-[#EFF6FF] text-[#2563EB]': item.status === 'BORROWING',
+                            'bg-[#FEF2F2] text-[#DC2626]': item.status === 'OVERDUE',
+                            'bg-[#D1FAE5] text-[#059669]': item.status === 'RETURNED'
+                        }">
+                        {{ item.status === 'BORROWING' ? 'Đang mượn' :
+                        item.status === 'OVERDUE' ? 'Quá hạn' :
+                        item.status === 'RETURNED' ? 'Đã trả' : 'Khác' }}
+                    </span>
+                </div>
+                <div class="flex justify-between text-[#6B7280] text-[12px]">
+                    <span>Số lượng: {{ item.quantity }}</span>
+                    <div class="flex gap-2">
+                        <span>Mượn: {{ item.borrowDate | date:'dd/MM/yyyy' }}</span>
+                        <span>Hạn trả: <strong [class.text-[#DC2626]]="item.status === 'OVERDUE'">{{ item.dueDate |
+                                date:'dd/MM/yyyy' }}</strong></span>
+                    </div>
+                </div>
+            </div>
+            } @empty {
+            <p class="text-[#6B7280] text-center py-4 text-[13px] italic">Độc giả đã trả hết sách.</p>
+            }
+        </div>
+    </div>
+</div>
