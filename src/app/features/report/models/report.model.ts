@@ -21,7 +21,7 @@ export interface LowStockBook {
  * totalOverdueBooks: Tổng số sách đang có status OVERDUE
  */
 export interface OverdueReader {
-    id: string;
+    borrowId: string;
     readerId: string;
     readerName: string;
     readerCode: string;

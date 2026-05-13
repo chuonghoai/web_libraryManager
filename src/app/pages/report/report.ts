@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportStore } from './report.store';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-report',
@@ -11,13 +12,13 @@ import { ReportStore } from './report.store';
 })
 export class ReportPage implements OnInit {
     readonly store = inject(ReportStore);
+    private router = inject(Router);
 
     ngOnInit(): void {
         this.store.loadReport();
     }
 
-    viewReaderDetail(readerId: string): void {
-        // this.router.navigate(['/readers'], { queryParams: { id: readerId } });
-        alert(`Sẽ điều hướng và mở chi tiết độc giả có ID: ${readerId}`);
+    viewBorrowDetail(borrowId: string): void {
+        this.router.navigate(['/borrow'], { queryParams: { borrowId: borrowId } });
     }
 }

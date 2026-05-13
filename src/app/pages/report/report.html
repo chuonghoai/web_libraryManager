@@ -124,7 +124,7 @@
                 Độc giả có sách quá hạn
             </h3>
             <ul class="divide-y divide-[#E2E8F0]">
-                @for (reader of data.overdueReaders; track reader.id) {
+                @for (reader of data.overdueReaders; track reader.borrowId) {
                 <li
                     class="min-h-[40px] px-4 py-2 hover:bg-[#F8FAFC] flex justify-between items-center transition-colors gap-4">
                     <div class="min-w-0">
@@ -132,7 +132,7 @@
                         <p class="text-[12px] text-[#6B7280]">{{ reader.readerCode }} • Quá hạn: <span
                                 class="text-[#DC2626] font-bold">{{ reader.totalOverdueBooks }}</span> sách</p>
                     </div>
-                    <button (click)="viewReaderDetail(reader.readerId)"
+                    <button (click)="viewBorrowDetail(reader.borrowId)"
                         class="shrink-0 bg-white hover:bg-[#F1F5F9] text-[#1E3A5F] border border-[#CBD5E1] font-medium h-[28px] px-[10px] rounded text-[12px] transition-colors">
                         Chi tiết
                     </button>

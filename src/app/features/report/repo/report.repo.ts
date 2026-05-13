@@ -36,14 +36,14 @@ export class ReportRepo {
 
             overdueReaders: [
                 {
-                    id: 'borrow-001',
+                    borrowId: 'borrow-001',
                     readerId: 'reader-001',
                     readerName: 'Nguyễn Minh Huy',
                     readerCode: 'DG001',
                     totalOverdueBooks: 1
                 },
                 {
-                    id: 'borrow-002',
+                    borrowId: 'borrow-002',
                     readerId: 'reader-002',
                     readerCode: 'DG002',
                     readerName: 'Trần Thị Lan',
@@ -55,6 +55,6 @@ export class ReportRepo {
             success: true,
             message: 'Lấy dữ liệu báo cáo thành công',
             data: mockReportData
-        }).pipe(delay(500));
+        });
     }
 }
