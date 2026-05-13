@@ -1,25 +1,47 @@
 <div class="flex h-screen bg-[#F8FAFC] font-sans text-[14px] text-[#1E3A5F]">
-    <aside class="w-64 bg-white shadow-sm flex flex-col border-r border-[#E2E8F0]">
-        <div class="p-4 border-b border-[#E2E8F0]">
-            <h2 class="text-[24px] leading-[32px] font-bold font-serif text-[#1E3A5F]">Library Manager</h2>
+    <aside class="w-64 bg-white shadow-sm flex flex-col border-r border-[#E2E8F0] shrink-0">
+        <div class="p-5 border-b border-[#E2E8F0]">
+            <h2 class="text-[22px] leading-[30px] font-bold font-serif text-[#1E3A5F] flex items-center gap-2">
+                <i class="bi bi-book-half text-[#2563EB]"></i>
+                LibManager
+            </h2>
         </div>
 
-        <nav class="flex-1 p-4 space-y-2">
-            @for (item of menuItems; track item.route) {
-            <a [routerLink]="item.route" routerLinkActive="bg-[#EFF6FF] text-[#1E3A5F] font-semibold border-[#1E3A5F]"
-                class="flex items-center p-2 rounded text-[#6B7280] hover:bg-[#F8FAFC] hover:text-[#1E3A5F] border-l-2 border-transparent transition-colors">
-                <span>{{ item.label }}</span>
-            </a>
-            }
+        <nav class="flex-1 p-4 flex flex-col gap-6 overflow-y-auto">
+
+            <div>
+                <a routerLink="/home"
+                    routerLinkActive="bg-[#1E3A5F] text-white font-medium shadow-md border-transparent"
+                    [routerLinkActiveOptions]="{exact: true}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-md text-[#6B7280] hover:bg-[#F1F5F9] hover:text-[#1E3A5F] transition-all border border-[#E2E8F0]">
+                    <i class="bi bi-house-door text-[18px]"></i>
+                    <span class="text-[15px]">Trang chủ</span>
+                </a>
+            </div>
+
+            <div class="space-y-1">
+                <p class="px-3 text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] mb-3">Phân hệ quản lý</p>
+
+                @for (item of menuItems; track item.route) {
+                <a [routerLink]="item.route"
+                    routerLinkActive="bg-[#EFF6FF] text-[#1E3A5F] font-semibold border-[#1E3A5F]"
+                    class="flex items-center gap-3 py-2.5 px-3 rounded text-[#6B7280] hover:bg-[#F8FAFC] hover:text-[#1E3A5F] border-l-4 border-transparent transition-colors">
+                    <i class="bi {{ item.icon }} text-[18px]"></i>
+                    <span>{{ item.label }}</span>
+                </a>
+                }
+            </div>
+
         </nav>
 
-        <div class="p-4 border-t border-[#E2E8F0] text-[12px] text-[#6B7280] font-medium">
-            {{ appVersion }}
+        <div class="p-4 border-t border-[#E2E8F0] flex justify-between items-center text-[12px] text-[#6B7280]">
+            <span class="font-medium">Phiên bản</span>
+            <span class="bg-[#F1F5F9] px-2 py-1 rounded text-[#1E3A5F] font-mono">{{ appVersion }}</span>
         </div>
     </aside>
 
     <main class="flex-1 overflow-y-auto p-8">
-        <div class="container mx-auto">
+        <div class="container mx-auto max-w-7xl h-full">
             <router-outlet></router-outlet>
         </div>
     </main>
