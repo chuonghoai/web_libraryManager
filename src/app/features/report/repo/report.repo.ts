@@ -36,17 +36,17 @@ export class ReportRepo {
 
             overdueReaders: [
                 {
-                    id: '001',
-                    readerId: 'R001',
-                    readerName: 'Nguyễn Văn A',
-                    readerCode: 'RD-0012',
+                    id: 'borrow-001',
+                    readerId: 'reader-001',
+                    readerName: 'Nguyễn Minh Huy',
+                    readerCode: 'DG001',
                     totalOverdueBooks: 1
                 },
                 {
-                    id: '002',
-                    readerId: 'R002',
-                    readerCode: 'RD-0055',
-                    readerName: 'Trần Thị B',
+                    id: 'borrow-002',
+                    readerId: 'reader-002',
+                    readerCode: 'DG002',
+                    readerName: 'Trần Thị Lan',
                     totalOverdueBooks: 2
                 }
             ]
