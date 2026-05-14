@@ -1,0 +1,156 @@
+<div class="h-[calc(100vh-4rem)] overflow-y-auto flex flex-col font-sans pb-6">
+    <div class="flex justify-between items-center mb-6 shrink-0">
+        <h1 class="text-[24px] leading-[32px] font-bold font-serif text-[#1E3A5F]">Báo cáo Thống kê</h1>
+        <button (click)="store.loadReport()"
+            class="bg-white hover:bg-[#F1F5F9] text-[#1E3A5F] border border-[#CBD5E1] font-medium h-[36px] px-4 rounded transition-colors flex items-center gap-2 text-[14px]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Làm mới
+        </button>
+    </div>
+
+    @if (store.errorMessage()) {
+    <div class="bg-[#FEF2F2] border border-[#DC2626] text-[#DC2626] p-3 rounded mb-4 text-[14px] shadow-sm shrink-0">
+        {{ store.errorMessage() }}
+    </div>
+    }
+
+    @if (store.isLoading() && !store.reportData()) {
+    <div class="flex justify-center items-center h-40">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1E3A5F] mb-4"></div>
+        <p class="text-[#2563EB] font-medium text-[14px] ml-3">Đang tải dữ liệu báo cáo...</p>
+    </div>
+    }
+
+    @if (store.reportData(); as data) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-white shadow-sm border border-[#E2E8F0] rounded p-4 flex items-center justify-between">
+            <div>
+                <p class="text-[13px] font-medium text-[#6B7280] mb-1">Tổng sách còn trong kho</p>
+                <h3 class="text-[30px] leading-[40px] font-bold font-serif text-[#1E3A5F]">{{ data.totalBooksInStock }}
+                </h3>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-sm border border-[#E2E8F0] rounded p-4 flex items-center justify-between">
+            <div>
+                <p class="text-[13px] font-medium text-[#6B7280] mb-1">Tổng sách đang được mượn</p>
+                <h3 class="text-[30px] leading-[40px] font-bold font-serif text-[#1E3A5F]">{{ data.totalBooksBorrowed }}
+                </h3>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-[#FEF2F2] text-[#DC2626] flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-sm border border-[#E2E8F0] rounded p-4 flex items-center justify-between">
+            <div>
+                <p class="text-[13px] font-medium text-[#6B7280] mb-1">Tổng số lượng độc giả</p>
+                <h3 class="text-[30px] leading-[40px] font-bold font-serif text-[#1E3A5F]">{{ data.totalReaders }}</h3>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-[#F1F5F9] text-[#6B7280] flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
+
+        <div class="bg-white shadow-sm border border-[#E2E8F0] rounded overflow-hidden">
+            <h3
+                class="px-4 py-3 border-b border-[#E2E8F0] text-[16px] leading-[26px] font-semibold text-[#1E3A5F] font-serif bg-[#F8FAFC]">
+                Sách mượn nhiều nhất
+            </h3>
+            <ul class="divide-y divide-[#E2E8F0]">
+                @for (book of data.mostBorrowedBooks; track book.id) {
+                <li
+                    class="min-h-[40px] px-4 py-2 hover:bg-[#F8FAFC] flex justify-between items-center transition-colors">
+                    <span class="text-[14px] text-[#1E3A5F] font-medium line-clamp-1 pr-4">{{ book.title }}</span>
+                    <span class="text-[12px] bg-[#EFF6FF] text-[#2563EB] font-bold px-2 py-1 rounded shrink-0">{{
+                        book.totalBorrowed }} lượt</span>
+                </li>
+                } @empty {
+                <li class="px-4 py-4 text-[13px] text-[#6B7280] text-center italic">Chưa có dữ liệu mượn sách.</li>
+                }
+            </ul>
+        </div>
+
+        @if (data.lowStockBooks && data.lowStockBooks.length > 0) {
+        <div class="bg-white shadow-sm border border-[#E2E8F0] rounded overflow-hidden">
+            <h3
+                class="px-4 py-3 border-b border-[#E2E8F0] text-[16px] leading-[26px] font-semibold text-[#1E3A5F] font-serif bg-[#F8FAFC] flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#CA8A04]"></span> Sách sắp hết trong kho
+            </h3>
+            <ul class="divide-y divide-[#E2E8F0]">
+                @for (book of data.lowStockBooks; track book.id) {
+                <li
+                    class="min-h-[40px] px-4 py-2 hover:bg-[#F8FAFC] flex justify-between items-center transition-colors">
+                    <span class="text-[14px] text-[#1E3A5F] font-medium line-clamp-1 pr-4">{{ book.title }}</span>
+                    <span class="text-[12px] text-[#DC2626] font-medium shrink-0">Còn: <strong class="font-bold">{{
+                            book.stock }}</strong> cuốn</span>
+                </li>
+                }
+            </ul>
+        </div>
+        }
+
+        <div class="bg-white shadow-sm border border-[#E2E8F0] rounded overflow-hidden"
+            [ngClass]="{'xl:col-span-2': !data.lowStockBooks || data.lowStockBooks.length === 0}">
+            <h3
+                class="px-4 py-3 border-b border-[#E2E8F0] text-[16px] leading-[26px] font-semibold text-[#1E3A5F] font-serif bg-[#FEF2F2] flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd" />
+                </svg>
+                Độc giả có sách quá hạn
+            </h3>
+            <ul class="divide-y divide-[#E2E8F0]">
+                @for (reader of data.overdueReaders; track reader.borrowId) {
+                <li
+                    class="min-h-[40px] px-4 py-2 hover:bg-[#F8FAFC] flex justify-between items-center transition-colors gap-4">
+                    <div class="min-w-0">
+                        <p class="text-[14px] text-[#1E3A5F] font-medium truncate">{{ reader.readerName }}</p>
+                        <p class="text-[12px] text-[#6B7280]">{{ reader.readerCode }} • Quá hạn: <span
+                                class="text-[#DC2626] font-bold">{{ reader.totalOverdueBooks }}</span> sách</p>
+                    </div>
+                    <button (click)="viewBorrowDetail(reader.borrowId)"
+                        class="shrink-0 bg-white hover:bg-[#F1F5F9] text-[#1E3A5F] border border-[#CBD5E1] font-medium h-[28px] px-[10px] rounded text-[12px] transition-colors">
+                        Chi tiết
+                    </button>
+                </li>
+                } @empty {
+                <li
+                    class="px-4 py-6 text-[13px] text-[#16A34A] text-center font-medium flex flex-col items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Tuyệt vời! Không có độc giả nào quá hạn.
+                </li>
+                }
+            </ul>
+        </div>
+
+    </div>
+    }
+</div>

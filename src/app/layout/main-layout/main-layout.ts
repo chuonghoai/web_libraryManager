@@ -14,6 +14,7 @@ export class MainLayoutComponent {
         { label: 'Sách', route: '/book', icon: 'bi-journal-bookmark' },
         { label: 'Độc giả', route: '/reader', icon: 'bi-people' },
         { label: 'Mượn/Trả', route: '/borrow', icon: 'bi-arrow-left-right' },
+        { label: 'Báo cáo', route: '/report', icon: 'bi-bar-chart' }, 
     ];
 
     appVersion = environment.app_version;

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BorrowStore } from './borrow.store';
 import { BorrowDetailComponent } from './components/borrow-detail/borrow-detail';
@@ -16,6 +16,12 @@ export class BorrowPage implements OnInit {
 
     // Ui state
     isFormOpen = signal<boolean>(false);
+
+    @Input() set borrowId(id: string | null) {
+        if (id) {
+            this.store.selectBorrow(id);
+        }
+    }
 
     ngOnInit(): void {
         this.store.loadBorrows();

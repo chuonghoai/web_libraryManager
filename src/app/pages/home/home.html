@@ -1,0 +1,91 @@
+<div class="h-[calc(100vh-4rem)] overflow-y-auto flex flex-col font-sans pb-6">
+
+    <div
+        class="bg-linear-to-r from-[#1E3A5F] to-[#2B5388] rounded-lg p-8 mb-8 shadow-md relative overflow-hidden shrink-0">
+        <svg class="absolute top-0 right-0 h-full text-white/5 opacity-50 transform translate-x-1/4"
+            viewBox="0 0 100 100" fill="currentColor">
+            <rect x="10" y="10" width="80" height="80" rx="10" transform="rotate(45 50 50)" />
+            <rect x="20" y="20" width="60" height="60" rx="8" transform="rotate(45 50 50)" />
+        </svg>
+
+        <div class="relative z-10">
+            <h1 class="text-[32px] leading-[40px] font-bold font-serif text-white mb-2">Hệ thống Quản lý Thư viện</h1>
+            <p class="text-[15px] text-[#E2E8F0] max-w-2xl">
+                Chào mừng bạn đến với trung tâm điều khiển. Lựa chọn các phân hệ bên dưới để bắt đầu quy trình quản lý
+                sách, độc giả và theo dõi báo cáo hoạt động.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+        <div (click)="navigateTo('book')"
+            class="bg-white rounded-md shadow-sm border border-[#E2E8F0] p-6 hover:shadow-lg hover:border-[#1E3A5F] transition-all cursor-pointer group flex flex-col h-full transform hover:-translate-y-1">
+            <div
+                class="w-14 h-14 rounded-full bg-[#EFF6FF] text-[#2563EB] group-hover:bg-[#1E3A5F] group-hover:text-white transition-colors flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <h3
+                class="text-[18px] font-bold font-serif text-[#1E3A5F] mb-2 group-hover:text-[#2563EB] transition-colors">
+                Kho Sách</h3>
+            <p class="text-[13px] text-[#6B7280] flex-1">Quản lý danh mục sách, thêm sách mới, cập nhật thông tin và
+                theo dõi số lượng tồn kho.</p>
+        </div>
+
+        <div (click)="navigateTo('reader')"
+            class="bg-white rounded-md shadow-sm border border-[#E2E8F0] p-6 hover:shadow-lg hover:border-[#1E3A5F] transition-all cursor-pointer group flex flex-col h-full transform hover:-translate-y-1">
+            <div
+                class="w-14 h-14 rounded-full bg-[#F1F5F9] text-[#6B7280] group-hover:bg-[#1E3A5F] group-hover:text-white transition-colors flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </div>
+            <h3
+                class="text-[18px] font-bold font-serif text-[#1E3A5F] mb-2 group-hover:text-[#2563EB] transition-colors">
+                Độc giả</h3>
+            <p class="text-[13px] text-[#6B7280] flex-1">Lưu trữ hồ sơ người mượn, cấp mã thẻ thư viện và cập nhật thông
+                tin liên lạc.</p>
+        </div>
+
+        <div (click)="navigateTo('borrow')"
+            class="bg-white rounded-md shadow-sm border border-[#E2E8F0] p-6 hover:shadow-lg hover:border-[#1E3A5F] transition-all cursor-pointer group flex flex-col h-full transform hover:-translate-y-1">
+            <div
+                class="w-14 h-14 rounded-full bg-[#ECFDF5] text-[#059669] group-hover:bg-[#1E3A5F] group-hover:text-white transition-colors flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+            </div>
+            <h3
+                class="text-[18px] font-bold font-serif text-[#1E3A5F] mb-2 group-hover:text-[#2563EB] transition-colors">
+                Mượn / Trả Sách</h3>
+            <p class="text-[13px] text-[#6B7280] flex-1">Thực hiện các giao dịch mượn mới, thu hồi sách trả và theo dõi
+                các khoản nợ sách chưa trả.</p>
+        </div>
+
+        <div (click)="navigateTo('report')"
+            class="bg-white rounded-md shadow-sm border border-[#E2E8F0] p-6 hover:shadow-lg hover:border-[#1E3A5F] transition-all cursor-pointer group flex flex-col h-full transform hover:-translate-y-1">
+            <div
+                class="w-14 h-14 rounded-full bg-[#FEF2F2] text-[#DC2626] group-hover:bg-[#1E3A5F] group-hover:text-white transition-colors flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+            </div>
+            <h3
+                class="text-[18px] font-bold font-serif text-[#1E3A5F] mb-2 group-hover:text-[#2563EB] transition-colors">
+                Báo cáo</h3>
+            <p class="text-[13px] text-[#6B7280] flex-1">Xem số liệu thống kê tổng quan, các cuốn sách hot nhất và danh
+                sách độc giả quá hạn.</p>
+        </div>
+
+    </div>
+</div>
